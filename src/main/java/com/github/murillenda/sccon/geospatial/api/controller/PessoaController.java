@@ -62,7 +62,7 @@ public class PessoaController {
      * Abordagem pragmática
      */
     @PatchMapping("/{id}")
-    public PessoaOutputDTO atualizarParcialmente(@PathVariable Long id, @RequestBody PessoaPatchInputDTO inputDTO) {
+    public PessoaOutputDTO atualizarParcialmente(@PathVariable Long id, @Valid @RequestBody PessoaPatchInputDTO inputDTO) {
         var pessoaSalva = pessoaService.atualizarParcialmente(id, inputDTO);
         return pessoaMapper.toOutputDTO(pessoaSalva);
     }

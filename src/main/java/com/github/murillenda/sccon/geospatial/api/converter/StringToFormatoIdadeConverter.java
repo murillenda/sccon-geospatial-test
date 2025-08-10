@@ -14,7 +14,7 @@ public class StringToFormatoIdadeConverter implements Converter<String, FormatoI
         try {
             return FormatoIdade.valueOf(source.toUpperCase());
         } catch (IllegalArgumentException e) {
-            log.error("Formato de idade incorreto, valor do output deve ser 'days', 'months' ou 'years'");
+            log.warn("Formato de idade incorreto, valor do output deve ser 'days', 'months' ou 'years'");
             // Captura MethodArgumentTypeMismatchException no ConverterService com o retorno "null"
             return null;
         }

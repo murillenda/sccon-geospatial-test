@@ -14,7 +14,7 @@ public class StringToFormatoSalarioConverter implements Converter<String, Format
         try {
             return FormatoSalario.valueOf(source.toUpperCase());
         } catch (IllegalArgumentException e) {
-            log.error("Formato de salário incorreto, valor do output deve ser 'full' ou 'min'");
+            log.warn("Formato de salário incorreto, valor do output deve ser 'full' ou 'min'");
             // Captura MethodArgumentTypeMismatchException no ConverterService com o retorno "null"
             return null;
         }

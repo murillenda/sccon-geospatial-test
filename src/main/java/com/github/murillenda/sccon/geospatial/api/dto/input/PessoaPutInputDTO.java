@@ -6,9 +6,6 @@ import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 
-/**
- DTO de entrada idêntico ao de POST, porém criado para facilitar melhor entendimento e facilitação de manutenção futura
- */
 public record PessoaPutInputDTO(
 
         @NotBlank
