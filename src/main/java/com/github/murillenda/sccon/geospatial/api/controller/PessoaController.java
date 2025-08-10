@@ -1,6 +1,7 @@
 package com.github.murillenda.sccon.geospatial.api.controller;
 
 import com.github.murillenda.sccon.geospatial.api.assembler.PessoaMapper;
+import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPatchInputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPostInputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPutInputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaOutputDTO;
@@ -52,4 +53,15 @@ public class PessoaController {
         var pessoaSalva = pessoaService.atualizarPessoa(id, pessoaAtualizada);
         return pessoaMapper.toOutputDTO(pessoaSalva);
     }
+
+    /**
+     * Abordagem pragmática
+     */
+    @PatchMapping("/{id}")
+    public PessoaOutputDTO atualizarParcialmente(@PathVariable Long id, @RequestBody PessoaPatchInputDTO inputDTO) {
+        var pessoaSalva = pessoaService.atualizarParcialmente(id, inputDTO);
+        return pessoaMapper.toOutputDTO(pessoaSalva);
+    }
+
+
 }

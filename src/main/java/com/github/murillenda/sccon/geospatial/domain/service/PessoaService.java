@@ -1,5 +1,7 @@
 package com.github.murillenda.sccon.geospatial.domain.service;
 
+import com.github.murillenda.sccon.geospatial.api.assembler.PessoaMapper;
+import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPatchInputDTO;
 import com.github.murillenda.sccon.geospatial.domain.exception.PessoaExistenteException;
 import com.github.murillenda.sccon.geospatial.domain.exception.PessoaNaoEncontradaException;
 import com.github.murillenda.sccon.geospatial.domain.model.Pessoa;
@@ -16,10 +18,12 @@ import java.util.List;
 public class PessoaService {
 
     private final PessoaRepository pessoaRepository;
+    private final PessoaMapper pessoaMapper;
 
     @Autowired
-    public PessoaService(PessoaRepository pessoaRepository) {
+    public PessoaService(PessoaRepository pessoaRepository, PessoaMapper pessoaMapper) {
         this.pessoaRepository = pessoaRepository;
+        this.pessoaMapper = pessoaMapper;
     }
 
     public List<Pessoa> listarPessoasOrdenadasPorNome() {
@@ -57,6 +61,17 @@ public class PessoaService {
             throw new PessoaNaoEncontradaException(id);
         }
         return pessoaRepository.save(pessoaAtualizada);
+    }
+
+    public Pessoa atualizarParcialmente(Long id, PessoaPatchInputDTO inputDTO) {
+        Pessoa pessoaAtual = this.buscarPorId(id);
+        pessoaMapper.atualizarPessoaFromPatchDTO(inputDTO, pessoaAtual);
+        return pessoaRepository.save(pessoaAtual);
+    }
+
+    public Pessoa buscarPorId(Long id) {
+        return pessoaRepository.findById(id)
+                .orElseThrow(() -> new PessoaNaoEncontradaException(id));
     }
 
 }
