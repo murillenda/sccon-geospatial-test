@@ -6,7 +6,9 @@ import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPostInputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPutInputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaIdadeOutputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaOutputDTO;
+import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaSalarioOutputDTO;
 import com.github.murillenda.sccon.geospatial.domain.model.FormatoIdade;
+import com.github.murillenda.sccon.geospatial.domain.model.FormatoSalario;
 import com.github.murillenda.sccon.geospatial.domain.service.PessoaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,11 @@ public class PessoaController {
     @GetMapping("/{id}/age")
     public PessoaIdadeOutputDTO buscarIdade(@PathVariable Long id, @RequestParam FormatoIdade output) {
         return pessoaService.buscarIdadeFormatada(id, output);
+    }
+
+    @GetMapping("/{id}/salary")
+    public PessoaSalarioOutputDTO buscarSalario(@PathVariable Long id, @RequestParam FormatoSalario output) {
+        return pessoaService.buscarSalarioFormatado(id, output);
     }
 
 }

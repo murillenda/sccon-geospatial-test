@@ -3,15 +3,18 @@ package com.github.murillenda.sccon.geospatial.domain.service;
 import com.github.murillenda.sccon.geospatial.api.assembler.PessoaMapper;
 import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPatchInputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaIdadeOutputDTO;
+import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaSalarioOutputDTO;
 import com.github.murillenda.sccon.geospatial.domain.exception.PessoaExistenteException;
 import com.github.murillenda.sccon.geospatial.domain.exception.PessoaNaoEncontradaException;
 import com.github.murillenda.sccon.geospatial.domain.model.FormatoIdade;
+import com.github.murillenda.sccon.geospatial.domain.model.FormatoSalario;
 import com.github.murillenda.sccon.geospatial.domain.model.Pessoa;
 import com.github.murillenda.sccon.geospatial.domain.repository.PessoaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 
@@ -80,6 +83,12 @@ public class PessoaService {
         Pessoa pessoa = this.buscarPorId(id);
         String idade = pessoa.calcularIdadeEm(formato);
         return new PessoaIdadeOutputDTO(pessoa.getNome(), idade);
+    }
+
+    public PessoaSalarioOutputDTO buscarSalarioFormatado(Long id, FormatoSalario formato) {
+        Pessoa pessoa = this.buscarPorId(id);
+        String salarioFormatado = pessoa.calcularSalario(formato);
+        return new PessoaSalarioOutputDTO(pessoa.getNome(), salarioFormatado);
     }
 
 }
