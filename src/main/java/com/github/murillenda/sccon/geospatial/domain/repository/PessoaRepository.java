@@ -32,11 +32,23 @@ public class PessoaRepository {
         return pessoasEmMemoria.values();
     }
 
-    public void save(Pessoa pessoa) {
+    public boolean existsById(Long id) {
+        return pessoasEmMemoria.containsKey(id);
+    }
+
+    public Long findMaxId() {
+        return pessoasEmMemoria.keySet().stream()
+                .max(Long::compareTo)
+                .orElse(0L);
+    }
+
+    public Pessoa save(Pessoa pessoa) {
         if (pessoa.getId() == null) {
             pessoa.setId(sequence.incrementAndGet());
         }
         pessoasEmMemoria.put(pessoa.getId(), pessoa);
+        return pessoa;
     }
+
 
 }

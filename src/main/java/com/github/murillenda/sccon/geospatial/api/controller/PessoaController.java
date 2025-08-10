@@ -1,12 +1,14 @@
 package com.github.murillenda.sccon.geospatial.api.controller;
 
 import com.github.murillenda.sccon.geospatial.api.assembler.PessoaMapper;
+import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPostInputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaOutputDTO;
 import com.github.murillenda.sccon.geospatial.domain.service.PessoaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +29,13 @@ public class PessoaController {
     public List<PessoaOutputDTO> listar() {
         var pessoas = pessoaService.listarPessoasOrdenadasPorNome();
         return pessoaMapper.toOutputDTOList(pessoas);
+    }
+
+    @PostMapping
+    public ResponseEntity<PessoaOutputDTO> criar(@Valid @RequestBody PessoaPostInputDTO inputDTO) {
+        var pessoa = pessoaMapper.toDomainObject(inputDTO);
+        var pessoaSalva = pessoaService.criarPessoa(pessoa);
+        var pessoaOutput = pessoaMapper.toOutputDTO(pessoaSalva);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaOutput);
     }
 }
