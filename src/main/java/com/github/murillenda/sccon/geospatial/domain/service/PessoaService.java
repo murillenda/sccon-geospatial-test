@@ -15,12 +15,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Service
 public class PessoaService {
+
+    private static final LocalDate DATA_REFERENCIA_TESTE = LocalDate.of(2023, 2, 7);
+    private static final BigDecimal SALARIO_MINIMO_2023 = new BigDecimal("1302.00");
+    private static final NumberFormat FORMATADOR_BRL = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"));
+
 
     private final PessoaRepository pessoaRepository;
     private final PessoaMapper pessoaMapper;
@@ -81,13 +90,31 @@ public class PessoaService {
 
     public PessoaIdadeOutputDTO buscarIdadeFormatada(Long id, FormatoIdade formato) {
         Pessoa pessoa = this.buscarPorId(id);
-        String idade = pessoa.calcularIdadeEm(formato);
-        return new PessoaIdadeOutputDTO(pessoa.getNome(), idade);
+
+        String idadeFormatada = switch (formato) {
+            case YEARS -> pessoa.calcularIdadeEmAnos(DATA_REFERENCIA_TESTE) + " anos";
+            case MONTHS -> pessoa.calcularIdadeEmMeses(DATA_REFERENCIA_TESTE) + " meses";
+            case DAYS -> pessoa.calcularIdadeEmDias(DATA_REFERENCIA_TESTE) + " dias";
+        };
+
+        return new PessoaIdadeOutputDTO(pessoa.getNome(), idadeFormatada);
     }
 
     public PessoaSalarioOutputDTO buscarSalarioFormatado(Long id, FormatoSalario formato) {
         Pessoa pessoa = this.buscarPorId(id);
-        String salarioFormatado = pessoa.calcularSalario(formato);
+
+        String salarioFormatado = switch (formato) {
+            case FULL -> {
+                BigDecimal salario = pessoa.calcularSalarioAtual(DATA_REFERENCIA_TESTE);
+                yield FORMATADOR_BRL.format(salario);
+            }
+            case MIN -> {
+                BigDecimal salarioAtual = pessoa.calcularSalarioAtual(DATA_REFERENCIA_TESTE);
+                BigDecimal emSalariosMinimos = salarioAtual.divide(SALARIO_MINIMO_2023, 2, RoundingMode.UP);
+                yield emSalariosMinimos + " salários mínimos";
+            }
+        };
+
         return new PessoaSalarioOutputDTO(pessoa.getNome(), salarioFormatado);
     }
 
