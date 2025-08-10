@@ -59,4 +59,8 @@ public class PessoaRepository {
         return Optional.ofNullable(pessoasEmMemoria.get(id));
     }
 
+    public void deleteAll() {
+        pessoasEmMemoria.clear();
+        sequence.set(0);
+    }
 }
