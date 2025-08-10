@@ -2,8 +2,10 @@ package com.github.murillenda.sccon.geospatial.domain.service;
 
 import com.github.murillenda.sccon.geospatial.api.assembler.PessoaMapper;
 import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPatchInputDTO;
+import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaIdadeOutputDTO;
 import com.github.murillenda.sccon.geospatial.domain.exception.PessoaExistenteException;
 import com.github.murillenda.sccon.geospatial.domain.exception.PessoaNaoEncontradaException;
+import com.github.murillenda.sccon.geospatial.domain.model.FormatoIdade;
 import com.github.murillenda.sccon.geospatial.domain.model.Pessoa;
 import com.github.murillenda.sccon.geospatial.domain.repository.PessoaRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +74,12 @@ public class PessoaService {
     public Pessoa buscarPorId(Long id) {
         return pessoaRepository.findById(id)
                 .orElseThrow(() -> new PessoaNaoEncontradaException(id));
+    }
+
+    public PessoaIdadeOutputDTO buscarIdadeFormatada(Long id, FormatoIdade formato) {
+        Pessoa pessoa = this.buscarPorId(id);
+        String idade = pessoa.calcularIdadeEm(formato);
+        return new PessoaIdadeOutputDTO(pessoa.getNome(), idade);
     }
 
 }
