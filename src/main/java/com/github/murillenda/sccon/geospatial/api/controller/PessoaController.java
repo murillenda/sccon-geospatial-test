@@ -63,5 +63,10 @@ public class PessoaController {
         return pessoaMapper.toOutputDTO(pessoaSalva);
     }
 
+    @GetMapping("/{id}")
+    public PessoaOutputDTO buscarPorId(@PathVariable Long id) {
+        var pessoa = pessoaService.buscarPorId(id);
+        return pessoaMapper.toOutputDTO(pessoa);
+    }
 
 }
