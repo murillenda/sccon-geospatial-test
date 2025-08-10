@@ -50,4 +50,13 @@ public class PessoaService {
         pessoaRepository.deleteById(id);
     }
 
+    public Pessoa atualizarPessoa(Long id, Pessoa pessoaAtualizada) {
+        // Garante que o ‘ID’ da URL seja o mesmo do objeto
+        pessoaAtualizada.setId(id);
+        if (!pessoaRepository.existsById(id)) {
+            throw new PessoaNaoEncontradaException(id);
+        }
+        return pessoaRepository.save(pessoaAtualizada);
+    }
+
 }

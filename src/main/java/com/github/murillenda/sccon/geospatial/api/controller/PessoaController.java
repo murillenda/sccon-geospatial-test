@@ -2,6 +2,7 @@ package com.github.murillenda.sccon.geospatial.api.controller;
 
 import com.github.murillenda.sccon.geospatial.api.assembler.PessoaMapper;
 import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPostInputDTO;
+import com.github.murillenda.sccon.geospatial.api.dto.input.PessoaPutInputDTO;
 import com.github.murillenda.sccon.geospatial.api.dto.output.PessoaOutputDTO;
 import com.github.murillenda.sccon.geospatial.domain.service.PessoaService;
 import jakarta.validation.Valid;
@@ -43,5 +44,12 @@ public class PessoaController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long id) {
         pessoaService.deletarPessoa(id);
+    }
+
+    @PutMapping("/{id}")
+    public PessoaOutputDTO atualizar(@PathVariable Long id, @Valid @RequestBody PessoaPutInputDTO inputDTO) {
+        var pessoaAtualizada = pessoaMapper.toDomainObject(inputDTO);
+        var pessoaSalva = pessoaService.atualizarPessoa(id, pessoaAtualizada);
+        return pessoaMapper.toOutputDTO(pessoaSalva);
     }
 }
