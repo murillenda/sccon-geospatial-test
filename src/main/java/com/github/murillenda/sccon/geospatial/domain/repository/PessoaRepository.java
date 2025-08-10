@@ -50,5 +50,9 @@ public class PessoaRepository {
         return pessoa;
     }
 
+    public void deleteById(Long id) {
+        pessoasEmMemoria.remove(id);
+    }
+
 
 }

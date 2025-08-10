@@ -1,6 +1,7 @@
 package com.github.murillenda.sccon.geospatial.domain.service;
 
 import com.github.murillenda.sccon.geospatial.domain.exception.PessoaExistenteException;
+import com.github.murillenda.sccon.geospatial.domain.exception.PessoaNaoEncontradaException;
 import com.github.murillenda.sccon.geospatial.domain.model.Pessoa;
 import com.github.murillenda.sccon.geospatial.domain.repository.PessoaRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,13 @@ public class PessoaService {
         }
 
         return pessoaRepository.save(pessoa);
+    }
+
+    public void deletarPessoa(Long id) {
+        if (!pessoaRepository.existsById(id)) {
+            throw new PessoaNaoEncontradaException(id);
+        }
+        pessoaRepository.deleteById(id);
     }
 
 }

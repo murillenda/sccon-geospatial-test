@@ -38,4 +38,10 @@ public class PessoaController {
         var pessoaOutput = pessoaMapper.toOutputDTO(pessoaSalva);
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoaOutput);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long id) {
+        pessoaService.deletarPessoa(id);
+    }
 }
