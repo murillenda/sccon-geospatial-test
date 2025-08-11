@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -54,5 +55,12 @@ public class PessoaRepository {
         pessoasEmMemoria.remove(id);
     }
 
+    public Optional<Pessoa> findById(Long id) {
+        return Optional.ofNullable(pessoasEmMemoria.get(id));
+    }
 
+    public void deleteAll() {
+        pessoasEmMemoria.clear();
+        sequence.set(0);
+    }
 }

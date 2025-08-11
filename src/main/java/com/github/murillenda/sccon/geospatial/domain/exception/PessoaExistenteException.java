@@ -11,7 +11,7 @@ public class PessoaExistenteException extends RuntimeException {
     }
 
     public PessoaExistenteException(Long pessoaId) {
-        this(String.format("Não existe uma pessoa com o código %d", pessoaId));
+        this(String.format("Já existe uma pessoa cadastrada com o código %d", pessoaId));
     }
 
 }
