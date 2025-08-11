@@ -38,7 +38,7 @@ Todos os requisitos da avaliação foram implementados, incluindo:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [URL_DO_SEU_REPOSITORIO]
+    git clone https://github.com/murillenda/sccon-geospatial-test
     ```
 
 2.  **Navegue até a pasta do projeto:**
